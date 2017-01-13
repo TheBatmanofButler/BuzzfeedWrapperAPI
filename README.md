@@ -1,4 +1,5 @@
 # BuzzfeedWrapperAPI
+Wrapper API over the Buzzfeed API
 
 ## Compiling and running code
 1. Check for dependencies (`urllib`, `json`, `datetime`), should come with any standard Python 2.7 distribution
