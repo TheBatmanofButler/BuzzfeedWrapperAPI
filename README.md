@@ -9,97 +9,97 @@
 ## Testing
 I ran the following tests using tests.test() to ensure that the wrapper API had the expected behavior, and verified manually using the Buzzfeed API results in my browser. I have listed the lengths of each wrapper endpoint, which I used to verify my results:
 
-## Base case
+### Base case
 input: a, b, c = test(feed = "lol", start = "2016-12-13 21:01:04", end = "2016-12-14 14:30:08", keywords = ["Laugh"], threshold = 0)
 output:
 len(a) = 4
 len(b) = 1
 len(c) = 4
 
-## Dates swapped
+### Dates swapped
 input: a, b, c = test(feed = "lol", start = "2016-12-14 14:30:08", end = "2016-12-13 21:01:04", keywords = ["Laugh"], threshold = 0)
 output:
 len(a) = 0
 len(b) = 1
 len(c) = 0
 
-## Empty string keyword, dates swapped
+### Empty string keyword, dates swapped
 input: a, b, c = test(feed = "lol", start = "2016-12-14 14:30:08", end = "2016-12-13 21:01:04", keywords = [""], threshold = 0)
 output:
 len(a) = 0
 len(b) = 8
 len(c) = 0
 
-## Impossible keyword, dates swapped
+### Impossible keyword, dates swapped
 input: a, b, c = test(feed = "lol", start = "2016-12-14 14:30:08", end = "2016-12-13 21:01:04", keywords = ["98123yr"], threshold = 0)
 output:
 len(a) = 0
 len(b) = 0
 len(c) = 0
 
-## Impossible keyword, dates swapped
+### Impossible keyword, dates swapped
 input: a, b, c = test(feed = "lol", start = "2016-12-14 14:30:08", end = "2016-12-13 21:01:04", keywords = ["i", "a", "u"], threshold = 0)
 output:
 len(a) = 0
 len(b) = 8
 len(c) = 0
 
-## Threshold increased to 5, dates swapped
+### Threshold increased to 5, dates swapped
 input: a, b, c = test(feed = "lol", start = "2016-12-14 14:30:08", end = "2016-12-13 21:01:04", keywords = ["i", "a", "u"], threshold = 5)
 output:
 len(a) = 0
 len(b) = 8
 len(c) = 0
 
-## Testing lol feed, guaranteed keywords, threshold set to 500
+### Testing lol feed, guaranteed keywords, threshold set to 500
 input: a, b, c = test(feed = "lol", start = "2016-12-13 21:01:04", end = "2016-12-14 14:30:08", keywords = ["i", "a", "u"], threshold = 500)
 output:
 len(a) = 4
 len(b) = 8
 len(c) = 0
 
-## Guaranteed keywords, threshold set to 50
+### Guaranteed keywords, threshold set to 50
 input: a, b, c = test(feed = "lol", start = "2016-12-13 21:01:04", end = "2016-12-14 14:30:08", keywords = ["i", "a", "u"], threshold = 50)
 output:
 len(a) = 4
 len(b) = 8
 len(c) = 1
 
-## Testing news feed at threshold 0 (news articles do not have comments)
+### Testing news feed at threshold 0 (news articles do not have comments)
 input: a, b, c = test(feed = "news", start = "2016-12-13 21:01:04", end = "2016-12-14 14:30:08", keywords = ["Laugh"], threshold = 0)
 output:
 len(a) = 4
 len(b) = 1
 len(c) = 4
 
-## Impossible keyword, dates not swapped
+### Impossible keyword, dates not swapped
 input: a, b, c = test(feed = "news", start = "2017-01-12 00:00:00", end = "2017-01-12 23:59:59", keywords = ["98123yr"], threshold = 0)
 output:
 len(a) = 24
 len(b) = 0
 len(c) = 24
 
-## start param not formatted properly
+### start param not formatted properly
 input: a, b, c = test(feed = "lol", start = "2016-12-14 14:30:", end = "2016-12-13 21:01:04", keywords = ["i", "a", "u"], threshold = 0)
 output:
 ValueError: time data '2016-12-14 14:30:' does not match format '%Y-%m-%d %H:%M:%S'
 
-## end param not formatted properly
+### end param not formatted properly
 input: a, b, c = test(feed = "lol", start = "2016-12-14 14:30:", end = "2016-12-13 21:01:", keywords = ["i", "a", "u"], threshold = 0)
 output:
 ValueError: time data '2016-12-14 14:30:' does not match format '%Y-%m-%d %H:%M:%S'
 
-## Nonexistent feed
+### Nonexistent feed
 input: a, b, c = test(feed = "lo", start = "2016-12-14 14:30:", end = "2016-12-13 21:01:04", keywords = ["i", "a", "u"], threshold = 0)
 output:
 ValueError: No JSON object could be decoded
 
-## keywords given a tuple instead of a list (this does not break anything in this implementation, but I raised an error for consistency)
+### keywords given a tuple instead of a list (this does not break anything in this implementation, but I raised an error for consistency)
 input: a, b, c = test(feed = "lol", start = "2016-12-14 14:30:00", end = "2016-12-13 21:01:04", keywords = ("i", "a", "u"), threshold = 0)
 output:
 TypeError: keywords must be a list
 
-## threshold given negative value
+### threshold given negative value
 input: a, b, c = test(feed = "lol", start = "2016-12-14 14:30:08", end = "2016-12-13 21:01:04", keywords = ["i", "a", "u"], threshold = -100)
 output:
 ValueError: threshold must be a non-negative integer
